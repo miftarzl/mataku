@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  mataku-web:
+    build: .
+    container_name: mataku_app
+    restart: always
+    ports:
+      - "8091:80"
+    environment:
+      - PORT=80

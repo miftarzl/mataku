@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mataku — Temukan Frame Kacamata Idealmu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a class="nav-brand" href="#">
+        <svg class="nav-logo-icon" viewBox="0 0 36 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="4" width="13" height="12" rx="6" stroke="currentColor" stroke-width="1.8" />
+          <rect x="22" y="4" width="13" height="12" rx="6" stroke="currentColor" stroke-width="1.8" />
+          <line x1="14" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="1.8" />
+        </svg>
+        <span class="nav-brand-text">Mataku</span>
+      </a>
+      <div class="nav-tagline">Yolo Face Shape Analyzer</div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        YOLOv8 Detection
+      </div>
+      <h1 class="hero-title">
+        Temukan Frame<br>
+        <em>Kacamata Idealmu</em>
+      </h1>
+      <p class="hero-subtitle">
+        Analisis bentuk wajahmu dengan teknologi AI.<br>
+        Dapatkan rekomendasi dasar frame kacamata yang sesuai dengan bentuk wajahmu.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="stat-num">5</span>
+          <span class="stat-label">Bentuk Wajah</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <span class="stat-num">6</span>
+          <span class="stat-label">Model Frame Utama</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <span class="stat-num">YOLOV8</span>
+          <span class="stat-label">Deteksi Wajah</span>
+        </div>
+      </div>
+      <a href="#analyzer" class="hero-cta">
+        <span>Mulai Analisis</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </a>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-float">
+        <svg class="hero-glasses-svg" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="16" width="72" height="48" rx="24" stroke="url(#g1)" stroke-width="3.5" />
+          <rect x="124" y="16" width="72" height="48" rx="24" stroke="url(#g1)" stroke-width="3.5" />
+          <path d="M76 40 C88 34 112 34 124 40" stroke="url(#g1)" stroke-width="3" />
+          <path d="M4 30 C-8 22 -14 14 -12 8" stroke="url(#g1)" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M196 30 C208 22 214 14 212 8" stroke="url(#g1)" stroke-width="2.5" stroke-linecap="round" />
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="200" y2="80" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#C9A882" />
+              <stop offset="1" stop-color="#2D221E" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="hero-card-label">Temukan Frame Idealmu</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Cara Kerja</p>
+        <h2 class="section-title">Tiga Langkah Mudah</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <div class="step-icon">
+            <svg viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.8" />
+              <circle cx="16" cy="16" r="6" stroke="currentColor" stroke-width="1.8" />
+              <circle cx="16" cy="16" r="2" fill="currentColor" />
+            </svg>
+          </div>
+          <h3>Foto Wajah</h3>
+          <p>Upload foto atau aktifkan kamera untuk mengambil gambar wajahmu secara langsung.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <div class="step-icon">
+            <svg viewBox="0 0 32 32" fill="none">
+              <rect x="4" y="8" width="24" height="18" rx="3" stroke="currentColor" stroke-width="1.8" />
+              <path d="M10 8V6a6 6 0 0112 0v2" stroke="currentColor" stroke-width="1.8" />
+              <path d="M12 17l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <h3>Deteksi Wajah</h3>
+          <p>YOLOv8 menganalisis bentuk wajahmu secara akurat dan mengidentifikasi kategorinya.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <div class="step-icon">
+            <svg viewBox="0 0 32 32" fill="none">
+              <rect x="3" y="10" width="26" height="14" rx="7" stroke="currentColor" stroke-width="1.8" />
+              <line x1="3" y1="17" x2="29" y2="17" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 2" />
+            </svg>
+          </div>
+          <h3>Rekomendasi Frame</h3>
+          <p>Dapatkan rekomendasi frame kacamata terbaik yang disesuaikan dengan bentuk wajahmu.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANALYZER SECTION -->
+  <section class="analyzer-section" id="analyzer">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Analisis Wajah</p>
+        <h2 class="section-title">Mulai Sekarang</h2>
+        <p class="section-desc">Pilih metode input untuk memulai analisis bentuk wajah</p>
+      </div>
+
+      <!-- Mode Selector -->
+      <div class="mode-selector">
+        <button id="btnCamera" class="mode-btn mode-active" onclick="switchMode('camera')">
+          <svg class="mode-icon" viewBox="0 0 24 24" fill="none">
+            <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" stroke="currentColor"
+              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="12" cy="13" r="4" stroke="currentColor" stroke-width="1.8" />
+          </svg>
+          Kamera Langsung
+        </button>
+        <button id="btnUpload" class="mode-btn" onclick="switchMode('upload')">
+          <svg class="mode-icon" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.8" />
+            <path d="M3 9h18M9 21V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+          Upload Foto
+        </button>
+      </div>
+
+      <!-- Analyzer Panel -->
+      <div class="analyzer-panel">
+
+        <!-- CAMERA PANEL -->
+        <div id="cameraSection" class="input-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">Kamera Realtime</h3>
+            <p class="panel-subtitle">Posisikan wajahmu di tengah frame untuk hasil terbaik</p>
+          </div>
+          <div class="camera-frame">
+            <video id="video" autoplay playsinline style="display:none;"></video>
+            <canvas id="cameraCanvas" style="display:none;"></canvas>
+            <div id="cameraPlaceholder" class="camera-placeholder">
+              <div class="placeholder-icon">
+                <svg viewBox="0 0 64 64" fill="none">
+                  <path d="M32 12C20.95 12 12 20.95 12 32s8.95 20 20 20 20-8.95 20-20S43.05 12 32 12z"
+                    stroke="currentColor" stroke-width="2" />
+                  <circle cx="32" cy="32" r="8" stroke="currentColor" stroke-width="2" />
+                  <path d="M8 32H4M60 32h-4M32 8V4M32 60v-4" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" />
+                </svg>
+              </div>
+              <p class="placeholder-title">Kamera Belum Aktif</p>
+              <p class="placeholder-desc">Klik tombol di bawah untuk mengaktifkan kamera</p>
+            </div>
+            <div class="camera-overlay" id="cameraOverlay" style="display:none;">
+              <div class="face-guide">
+                <div class="guide-corner tl"></div>
+                <div class="guide-corner tr"></div>
+                <div class="guide-corner bl"></div>
+                <div class="guide-corner br"></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-actions">
+            <button id="startCameraBtn" class="btn-primary" onclick="startCamera()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8" />
+                <circle cx="12" cy="12" r="4" fill="currentColor" />
+              </svg>
+              Aktifkan Kamera
+            </button>
+            <button id="captureBtn" class="btn-secondary" onclick="captureFrame()" disabled>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"
+                  stroke="currentColor" stroke-width="1.8" />
+                <circle cx="12" cy="13" r="4" stroke="currentColor" stroke-width="1.8" />
+              </svg>
+              Ambil & Analisis
+            </button>
+            <button id="stopCameraBtn" class="btn-ghost" onclick="stopCamera()" style="display:none;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor" />
+              </svg>
+              Stop
+            </button>
+          </div>
+        </div>
+
+        <!-- UPLOAD PANEL -->
+        <div id="uploadSection" class="input-panel" style="display:none;">
+          <div class="panel-header">
+            <h3 class="panel-title">Upload Foto Wajah</h3>
+            <p class="panel-subtitle">Gunakan foto dengan pencahayaan baik & wajah menghadap depan</p>
+          </div>
+          <label id="dropZone" for="fileInput" class="drop-zone">
+            <div class="drop-zone-inner">
+              <div class="drop-icon">
+                <svg viewBox="0 0 48 48" fill="none">
+                  <rect x="4" y="4" width="40" height="40" rx="8" stroke="currentColor" stroke-width="2" />
+                  <path d="M24 14v20M14 24h20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+              </div>
+              <p class="drop-title">Seret foto ke sini</p>
+              <p class="drop-sub">atau <span class="drop-link">klik untuk memilih file</span></p>
+              <p class="drop-meta">JPG · PNG · WEBP — maks. 10MB</p>
+            </div>
+            <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFileUpload(event)" />
+          </label>
+
+          <div id="previewContainer" style="display:none;" class="preview-wrap">
+            <div class="preview-header">
+              <span class="preview-label">Preview Foto</span>
+              <button class="btn-text" onclick="resetUpload()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <path d="M19 12H5M12 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                Ganti
+              </button>
+            </div>
+            <div class="preview-frame">
+              <img id="previewImage" src="" alt="Preview" />
+            </div>
+            <div class="panel-actions">
+              <button onclick="detectFromUpload()" class="btn-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.8" />
+                  <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                </svg>
+                Analisis Wajah
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.analyzer-panel -->
+
+      <!-- LOADING -->
+      <div id="loadingSection" style="display:none;" class="loading-panel">
+        <div class="loading-visual">
+          <div class="loading-ring"></div>
+          <div class="loading-pulse"></div>
+          <svg class="loading-glasses" viewBox="0 0 80 28" fill="none">
+            <rect x="1" y="4" width="28" height="20" rx="10" stroke="currentColor" stroke-width="2" />
+            <rect x="51" y="4" width="28" height="20" rx="10" stroke="currentColor" stroke-width="2" />
+            <line x1="29" y1="14" x2="51" y2="14" stroke="currentColor" stroke-width="2" />
+          </svg>
+        </div>
+        <p class="loading-title">Menganalisis Bentuk Wajah...</p>
+        <p class="loading-sub">YOLOv8 sedang memproses gambarmu</p>
+        <div class="loading-steps">
+          <div class="loading-step active" id="lstep1">Memuat gambar</div>
+          <div class="loading-step" id="lstep2">Deteksi wajah</div>
+          <div class="loading-step" id="lstep3">Mencocokkan frame</div>
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div id="resultSection" style="display:none;" class="result-section">
+        <!-- Result Header -->
+        <div class="result-header">
+          <div class="result-header-text">
+            <p class="section-eyebrow">Hasil Analisis</p>
+            <h2 class="section-title" id="resultHeadline">Wajah Terdeteksi</h2>
+          </div>
+          <button class="btn-ghost-sm" onclick="resetAll()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M1 4v6h6M23 20v-6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M20.49 9A9 9 0 005.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 013.51 15" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Analisis Ulang
+          </button>
+        </div>
+
+        <!-- Detection Card -->
+        <div class="detection-card">
+          <div class="detection-image-wrap">
+            <img id="resultImage" src="" alt="Hasil Deteksi" />
+            <div class="detection-image-caption">Gambar hasil deteksi YOLOv8</div>
+          </div>
+          <div class="detection-info">
+            <div class="info-group">
+              <p class="info-eyebrow">Bentuk Wajah Terdeteksi</p>
+              <div id="faceShapeBadge" class="face-shape-badge">
+                <span class="shape-icon">◈</span>
+                <span id="faceShapeText" class="shape-name">—</span>
+              </div>
+            </div>
+            <div class="info-divider"></div>
+            <div class="info-metrics">
+              <div class="metric">
+                <p class="metric-label">Tingkat Keyakinan</p>
+                <div class="metric-bar-wrap">
+                  <div class="metric-bar-track">
+                    <div class="metric-bar-fill" id="confBar"></div>
+                  </div>
+                  <span class="metric-value" id="confValue">—</span>
+                </div>
+              </div>
+              <div class="metric">
+                <p class="metric-label">Bounding Box</p>
+                <p class="metric-value-sm" id="bboxValue">—</p>
+              </div>
+            </div>
+            <div class="info-divider"></div>
+            <p class="detection-desc" id="faceShapeDesc">—</p>
+          </div>
+        </div>
+
+        <!-- Recommendation Section -->
+        <div class="reco-section">
+          <div class="reco-header">
+            <div>
+              <p class="section-eyebrow">Rekomendasi</p>
+              <h3 class="reco-title">Frame Kacamata untuk Kamu</h3>
+            </div>
+            <div class="reco-shape-tag" id="recoShapeTag">—</div>
+          </div>
+          <div id="glassesGrid" class="glasses-grid">
+            <!-- filled by JS -->
+          </div>
+        </div>
+
+        <!-- Download -->
+        <div class="download-wrap">
+          <button onclick="downloadResult()" class="btn-download">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+            Download Hasil Deteksi
+          </button>
+          <p class="download-note">Simpan gambar dengan bounding box hasil analisis</p>
+        </div>
+      </div>
+
+      <!-- ERROR -->
+      <div id="errorSection" style="display:none;" class="error-panel">
+        <div class="error-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="2" />
+            <path d="M24 14v12M24 32v2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          </svg>
+        </div>
+        <p class="error-title">Terjadi Kesalahan</p>
+        <p id="errorMessage" class="error-msg">—</p>
+        <button onclick="resetAll()" class="btn-primary" style="margin-top:1.5rem;">
+          Coba Lagi
+        </button>
+      </div>
+
+    </div><!-- /.container -->
+  </section>
+
+  <!-- FACE SHAPE GUIDE -->
+  <section class="guide-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Panduan Bentuk Wajah</p>
+        <h2 class="section-title">Kenali Bentuk Wajahmu</h2>
+      </div>
+      <div class="shapes-grid">
+        <div class="shape-card">
+          <div class="shape-visual oval-shape"></div>
+          <h4>Oval</h4>
+          <p>Proporsi seimbang, sedikit lebih panjang dari lebar. Paling versatile untuk semua jenis frame.</p>
+        </div>
+        <div class="shape-card">
+          <div class="shape-visual round-shape"></div>
+          <h4>Round</h4>
+          <p>Lebar dan panjang hampir sama dengan garis wajah yang lembut dan membulat.</p>
+        </div>
+        <div class="shape-card">
+          <div class="shape-visual square-shape"></div>
+          <h4>Square</h4>
+          <p>Dahi lebar, tulang pipi tegas, dan garis rahang yang kuat dan angular.</p>
+        </div>
+        <div class="shape-card">
+          <div class="shape-visual heart-shape"></div>
+          <h4>Heart</h4>
+          <p>Dahi lebih lebar dengan dagu yang runcing, membentuk siluet seperti hati.</p>
+        </div>
+        <div class="shape-card">
+          <div class="shape-visual oblong-shape"></div>
+          <h4>Oblong</h4>
+          <p>Wajah lebih panjang dari lebar dengan garis wajah yang lurus dan memanjang.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <svg class="footer-logo" viewBox="0 0 36 20" fill="none">
+            <rect x="1" y="4" width="13" height="12" rx="6" stroke="currentColor" stroke-width="1.8" />
+            <rect x="22" y="4" width="13" height="12" rx="6" stroke="currentColor" stroke-width="1.8" />
+            <line x1="14" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="1.8" />
+          </svg>
+          <span>Mataku</span>
+        </div>
+        <p class="footer-copy">Tugas Akhir · Sistem Rekomendasi Kacamata Berbasis Yolov8</p>
+        <p class="footer-tech">Powered by YOLOv8 · Flask · Python</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
