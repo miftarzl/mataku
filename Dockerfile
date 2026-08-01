@@ -24,10 +24,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Environment variable for port
-ENV PORT=5000
+ENV PORT=80
 
 # Expose app port
-EXPOSE 5000
+EXPOSE 80
 
 # Command to run application with Gunicorn production server
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--threads", "4", "--timeout", "120", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "--workers", "2", "--threads", "4", "--timeout", "120", "app:app"]
