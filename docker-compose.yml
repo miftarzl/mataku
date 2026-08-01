@@ -4,6 +4,6 @@ services:
     container_name: mataku_app
     restart: always
     ports:
-      - "8091:80"
+      - "5000:5000"
     environment:
-      - PORT=80
+      - PORT=5000

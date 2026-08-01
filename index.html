@@ -319,8 +319,64 @@
         <!-- Detection Card -->
         <div class="detection-card">
           <div class="detection-image-wrap">
-            <img id="resultImage" src="" alt="Hasil Deteksi" />
-            <div class="detection-image-caption">Gambar hasil deteksi YOLOv8</div>
+            <!-- View Switcher Tabs -->
+            <div class="view-tabs">
+              <button id="tabDeteksi" class="view-tab-btn active" onclick="switchResultView('deteksi')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2" />
+                </svg>
+                Hasil Deteksi Wajah
+              </button>
+              <button id="tabTryOn" class="view-tab-btn" onclick="switchResultView('tryon')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <circle cx="7" cy="12" r="5" stroke="currentColor" stroke-width="2" />
+                  <circle cx="17" cy="12" r="5" stroke="currentColor" stroke-width="2" />
+                  <line x1="12" y1="12" x2="12" y2="12" stroke="currentColor" stroke-width="2" />
+                </svg>
+                Virtual Try-On 🕶️
+              </button>
+            </div>
+
+            <!-- View: Deteksi (Bounding Box) -->
+            <div id="viewDeteksi" class="view-content active">
+              <img id="resultImage" src="" alt="Hasil Deteksi" />
+              <div class="detection-image-caption">Gambar hasil deteksi YOLOv8 dengan Bounding Box</div>
+            </div>
+
+            <!-- View: Virtual Try-On -->
+            <div id="viewTryOn" class="view-content" style="display:none;">
+              <div class="tryon-canvas-container">
+                <canvas id="tryOnCanvas"></canvas>
+              </div>
+
+              <!-- Selector Chip Kacamata -->
+              <div class="tryon-chip-bar">
+                <span class="tryon-chip-label">Pilih Frame:</span>
+                <div id="tryOnChips" class="tryon-chips"></div>
+              </div>
+
+              <!-- Kontrol Penyesuaian Slider -->
+              <div class="tryon-controls">
+                <div class="control-item">
+                  <span class="control-label">Posisi Horizontal:</span>
+                  <input type="range" id="sliderOffsetX" min="-80" max="80" value="0" oninput="updateTryOnControls()" />
+                </div>
+                <div class="control-item">
+                  <span class="control-label">Posisi Vertikal:</span>
+                  <input type="range" id="sliderOffsetY" min="-80" max="80" value="0" oninput="updateTryOnControls()" />
+                </div>
+                <div class="control-item">
+                  <span class="control-label">Rotasi Frame:</span>
+                  <input type="range" id="sliderRotate" min="-45" max="45" value="0" oninput="updateTryOnControls()" />
+                </div>
+                <div class="control-item">
+                  <span class="control-label">Ukuran Frame:</span>
+                  <input type="range" id="sliderScale" min="60" max="150" value="100" oninput="updateTryOnControls()" />
+                </div>
+                <button class="btn-reset-control" onclick="resetTryOnControls()">Reset Posisi & Rotasi</button>
+              </div>
+              <div class="detection-image-caption">Visualisasi kacamata rekomendasi langsung di wajah pengguna</div>
+            </div>
           </div>
           <div class="detection-info">
             <div class="info-group">
@@ -375,9 +431,9 @@
                 stroke-linejoin="round" />
               <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
             </svg>
-            Download Hasil Deteksi
+            Download Hasil Gambar
           </button>
-          <p class="download-note">Simpan gambar dengan bounding box hasil analisis</p>
+          <p class="download-note">Simpan gambar hasil ke perangkatmu</p>
         </div>
       </div>
 
@@ -408,27 +464,47 @@
       </div>
       <div class="shapes-grid">
         <div class="shape-card">
-          <div class="shape-visual oval-shape"></div>
+          <div class="shape-img-wrap">
+            <img src="faceshapes/oval-face.png" alt="Oval" class="shape-img"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+            <div class="shape-visual oval-shape" style="display:none;"></div>
+          </div>
           <h4>Oval</h4>
           <p>Proporsi seimbang, sedikit lebih panjang dari lebar. Paling versatile untuk semua jenis frame.</p>
         </div>
         <div class="shape-card">
-          <div class="shape-visual round-shape"></div>
+          <div class="shape-img-wrap">
+            <img src="faceshapes/round-face.png" alt="Round" class="shape-img"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+            <div class="shape-visual round-shape" style="display:none;"></div>
+          </div>
           <h4>Round</h4>
           <p>Lebar dan panjang hampir sama dengan garis wajah yang lembut dan membulat.</p>
         </div>
         <div class="shape-card">
-          <div class="shape-visual square-shape"></div>
+          <div class="shape-img-wrap">
+            <img src="faceshapes/square-face.png" alt="Square" class="shape-img"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+            <div class="shape-visual square-shape" style="display:none;"></div>
+          </div>
           <h4>Square</h4>
           <p>Dahi lebar, tulang pipi tegas, dan garis rahang yang kuat dan angular.</p>
         </div>
         <div class="shape-card">
-          <div class="shape-visual heart-shape"></div>
+          <div class="shape-img-wrap">
+            <img src="faceshapes/heart-face.png" alt="Heart" class="shape-img"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+            <div class="shape-visual heart-shape" style="display:none;"></div>
+          </div>
           <h4>Heart</h4>
           <p>Dahi lebih lebar dengan dagu yang runcing, membentuk siluet seperti hati.</p>
         </div>
         <div class="shape-card">
-          <div class="shape-visual oblong-shape"></div>
+          <div class="shape-img-wrap">
+            <img src="faceshapes/oblong-face.png" alt="Oblong" class="shape-img"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+            <div class="shape-visual oblong-shape" style="display:none;"></div>
+          </div>
           <h4>Oblong</h4>
           <p>Wajah lebih panjang dari lebar dengan garis wajah yang lurus dan memanjang.</p>
         </div>

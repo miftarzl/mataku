@@ -14,10 +14,6 @@ let uploadedFile = null;
 
 // ── Deskripsi Bentuk Wajah ─────────────────────
 // Deskripsi umum tiap bentuk wajah (untuk konteks di UI).
-// Rekomendasi bingkai TIDAK di-hardcode di sini lagi — diambil langsung
-// dari backend (app.py) yang menerapkan rule-based recommendation sesuai
-// Tabel 3.6 "Rule Mapping Sistem" pada dokumen Metode Penelitian, supaya
-// frontend & backend selalu konsisten (single source of truth di server).
 const FACE_SHAPE_DESC = {
   oval: "Bentuk wajah Anda adalah oval. Proporsi panjang dan lebar wajah terlihat seimbang dengan garis wajah yang lembut, sehingga termasuk salah satu bentuk wajah yang paling fleksibel.",
   round: "Bentuk wajah Anda adalah bulat (round). Ciri utamanya adalah pipi yang penuh dengan panjang dan lebar wajah yang hampir sama serta garis wajah yang lembut.",
@@ -222,8 +218,149 @@ function animateLoadingSteps() {
   }, 600);
 }
 
+// ── State Virtual Try-On ──────────────────────
+let currentResultData = null;
+let currentTryOnFrame = null;
+let tryOnOffsetX = 0;
+let tryOnOffsetY = 0;
+let tryOnScale = 100;
+let tryOnRotate = 0;
+let activeResultView = "deteksi";
+let faceImageObj = null;
+
+// ── VIRTUAL TRY-ON & VIEW SWITCHER ────────────
+function switchResultView(view) {
+  activeResultView = view;
+  const tabDeteksi = document.getElementById("tabDeteksi");
+  const tabTryOn = document.getElementById("tabTryOn");
+  const viewDeteksi = document.getElementById("viewDeteksi");
+  const viewTryOn = document.getElementById("viewTryOn");
+
+  if (view === "deteksi") {
+    tabDeteksi?.classList.add("active");
+    tabTryOn?.classList.remove("active");
+    if (viewDeteksi) viewDeteksi.style.display = "block";
+    if (viewTryOn) viewTryOn.style.display = "none";
+  } else {
+    tabTryOn?.classList.add("active");
+    tabDeteksi?.classList.remove("active");
+    if (viewTryOn) viewTryOn.style.display = "block";
+    if (viewDeteksi) viewDeteksi.style.display = "none";
+    drawVirtualTryOn();
+  }
+}
+
+function selectTryOnFrame(frameSlug) {
+  currentTryOnFrame = frameSlug;
+  updateTryOnChipStyles();
+  switchResultView("tryon");
+}
+
+function updateTryOnChipStyles() {
+  const chips = document.querySelectorAll(".tryon-chip");
+  chips.forEach(chip => {
+    if (chip.getAttribute("data-frame") === currentTryOnFrame) {
+      chip.classList.add("active");
+    } else {
+      chip.classList.remove("active");
+    }
+  });
+}
+
+function updateTryOnControls() {
+  const sliderX = document.getElementById("sliderOffsetX");
+  const sliderY = document.getElementById("sliderOffsetY");
+  const sliderS = document.getElementById("sliderScale");
+  const sliderR = document.getElementById("sliderRotate");
+  if (sliderX) tryOnOffsetX = parseInt(sliderX.value) || 0;
+  if (sliderY) tryOnOffsetY = parseInt(sliderY.value) || 0;
+  if (sliderS) tryOnScale = parseInt(sliderS.value) || 100;
+  if (sliderR) tryOnRotate = parseInt(sliderR.value) || 0;
+  drawVirtualTryOn();
+}
+
+function resetTryOnControls() {
+  tryOnOffsetX = 0;
+  tryOnOffsetY = 0;
+  tryOnScale = 100;
+  tryOnRotate = 0;
+  const sliderX = document.getElementById("sliderOffsetX");
+  const sliderY = document.getElementById("sliderOffsetY");
+  const sliderS = document.getElementById("sliderScale");
+  const sliderR = document.getElementById("sliderRotate");
+  if (sliderX) sliderX.value = 0;
+  if (sliderY) sliderY.value = 0;
+  if (sliderS) sliderS.value = 100;
+  if (sliderR) sliderR.value = 0;
+  drawVirtualTryOn();
+}
+
+function drawVirtualTryOn() {
+  if (!currentResultData) return;
+
+  const canvas = document.getElementById("tryOnCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+
+  const faceSrc = currentResultData.original_image || currentResultData.result_image;
+  if (!faceSrc) return;
+
+  const renderFrame = () => {
+    canvas.width = faceImageObj.naturalWidth || 640;
+    canvas.height = faceImageObj.naturalHeight || 640;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(faceImageObj, 0, 0, canvas.width, canvas.height);
+
+    if (!currentTryOnFrame) return;
+
+    const frameImg = new Image();
+    frameImg.src = `glasses/frames/${currentTryOnFrame}.png`;
+    frameImg.onload = () => {
+      let x1 = 0, y1 = 0, x2 = canvas.width, y2 = canvas.height;
+      if (currentResultData.bbox && currentResultData.bbox.length === 4) {
+        [x1, y1, x2, y2] = currentResultData.bbox;
+      }
+
+      const fw = x2 - x1;
+      const fh = y2 - y1;
+      const centerX = x1 + (fw / 2);
+      const finalEyeX = centerX + tryOnOffsetX;
+
+      // Anatomi posisi mata rata-rata ~38% dari batas atas bounding box wajah
+      const baseEyeY = y1 + (fh * 0.38);
+      const finalEyeY = baseEyeY + tryOnOffsetY;
+
+      // Base lebar kacamata ~104% dari lebar wajah
+      const scaleFactor = (tryOnScale / 100);
+      const glassesW = (fw * 1.04) * scaleFactor;
+      const aspect = frameImg.naturalHeight / (frameImg.naturalWidth || 1);
+      const glassesH = glassesW * aspect;
+
+      // Rotasi frame kacamata (dalam radian)
+      const rad = (tryOnRotate || 0) * (Math.PI / 180);
+
+      ctx.save();
+      ctx.translate(finalEyeX, finalEyeY);
+      ctx.rotate(rad);
+      ctx.drawImage(frameImg, -glassesW / 2, -glassesH / 2, glassesW, glassesH);
+      ctx.restore();
+    };
+  };
+
+  if (!faceImageObj || faceImageObj.src !== faceSrc) {
+    faceImageObj = new Image();
+    faceImageObj.onload = renderFrame;
+    faceImageObj.src = faceSrc;
+  } else if (faceImageObj.complete) {
+    renderFrame();
+  }
+}
+
 // ── RENDER HASIL ──────────────────────────────
 function renderResults(data) {
+  currentResultData = data;
+
   // Image
   const resultImg = document.getElementById("resultImage");
   resultImg.src = data.result_image;
@@ -261,17 +398,21 @@ function renderResults(data) {
   // Reco shape tag
   document.getElementById("recoShapeTag").textContent = capitalize(faceShape);
 
-  // Glasses grid — dibangun dari rekomendasi rule-based backend (Tabel 3.6),
-  // bukan data statis di frontend, supaya rekomendasi yang tampil selalu
-  // sesuai dengan hasil deteksi bentuk wajah yang sebenarnya.
+  // Frame list & defaults
   const frameList = Array.isArray(data.frame_recommendations) ? data.frame_recommendations : [];
+  if (frameList.length > 0) {
+    currentTryOnFrame = frameList[0].toLowerCase().replace(/\s+/g, "-");
+  } else {
+    currentTryOnFrame = "oval";
+  }
 
+  // Glasses grid HTML
   const glassesHTML = frameList.map(frameName => {
     const key = frameName.toLowerCase();
     const info = FRAME_INFO[key] || { desc: "" };
     const slug = key.replace(/\s+/g, "-");
     return `
-    <div class="glasses-item">
+    <div class="glasses-item" onclick="selectTryOnFrame('${slug}')" style="cursor:pointer;">
       <div class="glasses-item-placeholder">
         <svg width="48" height="24" viewBox="0 0 80 28" fill="none">
           <rect x="1" y="4" width="28" height="20" rx="10" stroke="currentColor" stroke-width="2" opacity="0.3"/>
@@ -288,12 +429,28 @@ function renderResults(data) {
       />
       <div class="glasses-name">${frameName}</div>
       <div class="glasses-desc">${info.desc}</div>
+      <button class="btn-tryon-card" onclick="event.stopPropagation(); selectTryOnFrame('${slug}')">
+        <span>✨ Coba di Wajah</span>
+      </button>
     </div>
   `;
   }).join("");
 
   document.getElementById("glassesGrid").innerHTML = glassesHTML ||
     `<p class="detection-desc">Tidak ada rekomendasi bingkai untuk bentuk wajah ini.</p>`;
+
+  // Render chips selector di Try-On View
+  const chipsHTML = frameList.map(frameName => {
+    const slug = frameName.toLowerCase().replace(/\s+/g, "-");
+    const isActive = slug === currentTryOnFrame ? "active" : "";
+    return `<button class="tryon-chip ${isActive}" data-frame="${slug}" onclick="selectTryOnFrame('${slug}')">${frameName}</button>`;
+  }).join("");
+  const chipsEl = document.getElementById("tryOnChips");
+  if (chipsEl) chipsEl.innerHTML = chipsHTML;
+
+  // Reset sliders & default to deteksi view
+  resetTryOnControls();
+  switchResultView("deteksi");
 
   show("resultSection");
   setTimeout(() => {
@@ -302,12 +459,91 @@ function renderResults(data) {
 }
 
 // ── DOWNLOAD ──────────────────────────────────
-function downloadResult() {
-  if (!lastResultBlob) return;
-  const a = document.createElement("a");
-  a.href = lastResultBlob;
-  a.download = "mataku-hasil-deteksi.jpg";
-  a.click();
+function downloadResult(mode) {
+  const targetMode = mode || activeResultView || "deteksi";
+  if (targetMode === "tryon") {
+    const canvas = document.getElementById("tryOnCanvas");
+    if (!canvas) return;
+    const a = document.createElement("a");
+    a.href = canvas.toDataURL("image/jpeg", 0.95);
+    a.download = "mataku-virtual-tryon.jpg";
+    a.click();
+  } else {
+    if (!lastResultBlob || !currentResultData) return;
+
+    // Buat gambar kartu komposit hasil deteksi
+    const img = new Image();
+    img.onload = () => {
+      const imgW = img.naturalWidth || 640;
+      const imgH = img.naturalHeight || 640;
+
+      // Tinggi panel infografis di bagian bawah gambar
+      const panelH = Math.max(180, Math.round(imgH * 0.28));
+      const exportCanvas = document.createElement("canvas");
+      exportCanvas.width = imgW;
+      exportCanvas.height = imgH + panelH;
+
+      const ctx = exportCanvas.getContext("2d");
+
+      // 1. Gambar Wajah dengan Bounding Box YOLO
+      ctx.drawImage(img, 0, 0, imgW, imgH);
+
+      // 2. Panel Info Latar Belakang (Deep Espresso #2D221E)
+      ctx.fillStyle = "#2D221E";
+      ctx.fillRect(0, imgH, imgW, panelH);
+
+      // Accent Line Pemisah (Rose Crimson #E11D48)
+      ctx.fillStyle = "#E11D48";
+      ctx.fillRect(0, imgH, imgW, Math.max(4, Math.round(imgH * 0.008)));
+
+      const paddingX = Math.round(imgW * 0.05);
+      let currentY = imgH + Math.round(panelH * 0.22);
+
+      const fontTitleSize = Math.max(14, Math.round(imgW * 0.032));
+      const fontHeadlineSize = Math.max(18, Math.round(imgW * 0.045));
+      const fontBodySize = Math.max(12, Math.round(imgW * 0.028));
+
+      // 3. Header Eyebrow
+      ctx.font = `600 ${fontTitleSize}px Outfit, sans-serif`;
+      ctx.fillStyle = "#C9A882"; // Gold Light
+      ctx.fillText("MATAKU — HASIL DETEKSI BENTUK WAJAH", paddingX, currentY);
+
+      currentY += fontHeadlineSize + 4;
+
+      // 4. Info Bentuk Wajah & Confidence
+      const faceShape = (currentResultData.face_shape || "Unknown").toUpperCase();
+      const confPct = currentResultData.confidence ? (currentResultData.confidence * 100).toFixed(1) + "%" : "—";
+
+      ctx.font = `bold ${fontHeadlineSize}px Outfit, sans-serif`;
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillText(`Wajah: ${faceShape}  (${confPct})`, paddingX, currentY);
+
+      currentY += fontBodySize + 14;
+
+      // 5. Alternatif Rekomendasi Frame Kacamata
+      const frameList = Array.isArray(currentResultData.frame_recommendations)
+        ? currentResultData.frame_recommendations.join("  •  ")
+        : "—";
+
+      ctx.font = `500 ${fontBodySize}px Outfit, sans-serif`;
+      ctx.fillStyle = "#EFE5D4"; // Cream 3
+      ctx.fillText(`Rekomendasi Frame:  ${frameList}`, paddingX, currentY);
+
+      currentY += fontBodySize + 12;
+
+      // 6. Watermark Footer
+      ctx.font = `300 ${Math.max(10, Math.round(imgW * 0.022))}px Outfit, sans-serif`;
+      ctx.fillStyle = "#8A7A70";
+      ctx.fillText("Sistem Rekomendasi Kacamata Berbasis YOLOv8", paddingX, currentY);
+
+      // Download gambar kartu komposit
+      const a = document.createElement("a");
+      a.href = exportCanvas.toDataURL("image/jpeg", 0.95);
+      a.download = `mataku-deteksi-${faceShape.toLowerCase()}.jpg`;
+      a.click();
+    };
+    img.src = lastResultBlob;
+  }
 }
 
 // ── ERROR ─────────────────────────────────────
@@ -325,9 +561,11 @@ function resetAll() {
   hide("previewContainer");
   uploadedFile = null;
   lastResultBlob = null;
+  currentResultData = null;
+  currentTryOnFrame = null;
+  faceImageObj = null;
   const fi = document.getElementById("fileInput");
   if (fi) fi.value = "";
-  // Scroll kembali ke panel analyzer agar pengguna dapat langsung mulai ulang analisis
   const analyzer = document.getElementById('analyzer');
   if (analyzer) analyzer.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }

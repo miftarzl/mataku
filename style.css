@@ -1379,15 +1379,16 @@ body {
 /* ── GUIDE SECTION ───────────────────────── */
 .guide-section {
   padding: 80px 0;
-  background: var(--espresso);
+  background: var(--cream-2);
+  border-top: 1px solid var(--border);
 }
 
 .guide-section .section-eyebrow {
-  color: var(--gold-light);
+  color: var(--accent);
 }
 
 .guide-section .section-title {
-  color: var(--cream);
+  color: var(--espresso);
 }
 
 .shapes-grid {
@@ -1397,25 +1398,52 @@ body {
 }
 
 .shape-card {
-  background: rgba(255, 255, 255, .04);
-  border: 1px solid rgba(255, 255, 255, .1);
+  background: var(--warm-white);
+  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 24px 16px;
   text-align: center;
   transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
 }
 
 .shape-card:hover {
-  background: rgba(255, 255, 255, .08);
-  border-color: rgba(107, 82, 64, .4);
+  background: var(--warm-white);
+  border-color: var(--gold-light);
   transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.shape-img-wrap {
+  width: 84px;
+  height: 96px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cream);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  border: 1px solid var(--border-2);
+}
+
+.shape-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(45, 34, 30, 0.08));
+  transition: transform 0.3s ease;
+}
+
+.shape-card:hover .shape-img {
+  transform: scale(1.08);
 }
 
 .shape-visual {
   width: 60px;
   height: 72px;
   margin: 0 auto 16px;
-  border: 2px solid rgba(107, 82, 64, .5);
+  border: 2px solid var(--gold);
 }
 
 .oval-shape {
@@ -1447,17 +1475,17 @@ body {
 
 .shape-card h4 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 600;
-  color: var(--cream);
+  color: var(--espresso);
   margin-bottom: 8px;
 }
 
 .shape-card p {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, .45);
+  font-size: 0.78rem;
+  color: var(--text-body);
   line-height: 1.55;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 /* ── FOOTER ──────────────────────────────── */
@@ -1621,4 +1649,209 @@ body {
     padding: 9px 16px;
     font-size: 0.82rem;
   }
+}
+
+/* =============================================
+   VIRTUAL TRY-ON STYLES
+   ============================================= */
+.view-tabs {
+  display: flex;
+  gap: 8px;
+  background: var(--cream-2);
+  padding: 6px;
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+
+.view-tab-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--brown-soft);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.view-tab-btn:hover {
+  color: var(--espresso);
+}
+
+.view-tab-btn.active {
+  background: var(--espresso);
+  color: var(--white);
+  box-shadow: var(--shadow-xs);
+}
+
+.tryon-canvas-container {
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--brown-deep);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+#tryOnCanvas {
+  width: 100%;
+  height: auto;
+  max-height: 480px;
+  object-fit: contain;
+  display: block;
+}
+
+.tryon-chip-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.tryon-chip-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--brown-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tryon-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tryon-chip {
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-2);
+  background: var(--cream);
+  color: var(--brown-mid);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tryon-chip:hover {
+  background: var(--cream-3);
+  border-color: var(--gold);
+}
+
+.tryon-chip.active {
+  background: var(--accent);
+  color: var(--white);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.tryon-controls {
+  background: var(--cream-2);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--border);
+}
+
+.control-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.control-label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--brown-soft);
+  min-width: 110px;
+}
+
+.control-item input[type="range"] {
+  flex: 1;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.btn-reset-control {
+  align-self: flex-end;
+  background: transparent;
+  border: none;
+  color: var(--brown-soft);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 2px 4px;
+}
+
+.btn-reset-control:hover {
+  color: var(--accent);
+}
+
+.btn-tryon-card {
+  margin-top: 10px;
+  width: 100%;
+  padding: 7px 12px;
+  background: var(--cream-3);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-sm);
+  color: var(--espresso);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glasses-item:hover .btn-tryon-card {
+  background: var(--accent);
+  color: var(--white);
+  border-color: var(--accent);
+}
+
+.download-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .download-wrap {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+.btn-download-tryon {
+  background: var(--accent);
+  color: var(--white);
+  border-color: var(--accent);
+}
+
+.btn-download-tryon:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
 }

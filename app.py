@@ -234,6 +234,7 @@ def detect():
     # 7. Encode hasil ke base64
     try:
         result_b64 = img_to_base64(annotated)
+        original_b64 = img_to_base64(img_bgr)
     except Exception as e:
         return jsonify({"error": f"Gagal encode hasil gambar: {str(e)}"}), 500
 
@@ -243,6 +244,7 @@ def detect():
     # 9. Return JSON
     response_data = {
         "result_image": result_b64,
+        "original_image": original_b64,
         "face_shape": best_face_shape,
         "confidence": round(best_confidence, 4),
         "bbox": best_bbox,

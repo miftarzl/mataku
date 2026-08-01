@@ -8,5 +8,8 @@ venv/
 ENV/
 .git
 .gitignore
+.dockerignore
+Dockerfile
+docker-compose.yml
 .vscode/
 .idea/
